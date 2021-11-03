@@ -9,18 +9,27 @@ class TicTacToe():
         self.window = Tk()
         self.window.title('Project_03')
         self.canvas = Canvas(self.window, width=700, height=700)
-        #self.canvas.pack()
-
+        self.count = 0
         # Game board needs to be initialized
         self.build_board()
-
 
     # Mainloop function
     def mainloop(self):
         self.window.mainloop()
 
+    def select_tile(self, button):
+        # Run a check to see if the button is available
+        if button["text"]== "":
+            if self.count % 2 == 0:
+                button["text"]="X"
+            else:
+                button["text"]="O"
 
-    def change_value(self,button,boardValRow,boardValCol):
+            self.count += 1
+            if self.count >= 5:
+                pass
+        else:
+            pass
         pass
 
     # Build board function
@@ -36,23 +45,23 @@ class TicTacToe():
 
         # Grid buttons for the board
         b1 = Button(self.window, text="", height=8, width=16, bg="gray", activebackground="white", fg="white",
-                        font="Times 15 bold", command=lambda: self.change_value(b1, 0, 0))
+                        font="Helvetica 16 bold", command=lambda: self.select_tile(b1))
         b2 = Button(self.window, text="", height=8, width=16, bg="gray", activebackground="white", fg="white",
-                        font="Times 15 bold", command=lambda: self.change_value(b2, 0, 1))
+                        font="Helvetica 16 bold", command=lambda: self.select_tile(b2))
         b3 = Button(self.window, text="", height=8, width=16, bg="gray", activebackground="white", fg="white",
-                        font="Times 15 bold", command=lambda: self.change_value(b3, 0, 2))
+                        font="Helvetica 16 bold", command=lambda: self.select_tile(b3))
         b4 = Button(self.window, text="", height=8, width=16, bg="gray", activebackground="white", fg="white",
-                        font="Times 15 bold", command=lambda: self.change_value(b4, 1, 0))
+                        font="Helvetica 16 bold", command=lambda: self.select_tile(b4))
         b5 = Button(self.window, text="", height=8, width=16, bg="gray", activebackground="white", fg="white",
-                        font="Times 15 bold", command=lambda: self.change_value(b5, 1, 1))
+                        font="Helvetica 16 bold", command=lambda: self.select_tile(b5))
         b6 = Button(self.window, text="", height=8, width=16, bg="gray", activebackground="white", fg="white",
-                        font="Times 15 bold", command=lambda: self.change_value(b6, 1, 2))
+                        font="Helvetica 16 bold", command=lambda: self.select_tile(b6))
         b7 = Button(self.window, text="", height=8, width=16, bg="gray", activebackground="white", fg="white",
-                        font="Times 15 bold", command=lambda: self.change_value(b7, 2, 0))
+                        font="Helvetica 16 bold", command=lambda: self.select_tile(b7))
         b8 = Button(self.window, text="", height=8, width=16, bg="gray", activebackground="white", fg="white",
-                        font="Times 15 bold", command=lambda: self.change_value(b8, 2, 1))
+                        font="Helvetica 16 bold", command=lambda: self.select_tile(b8))
         b9 = Button(self.window, text="", height=8, width=16, bg="gray", activebackground="white", fg="white",
-                        font="Times 15 bold", command=lambda: self.change_value(b9, 2, 2))
+                        font="Helvetica 16 bold", command=lambda: self.select_tile(b9))
 
         # Establish the actual buttons row and col locations
         b1.grid(row=1, column=0)
@@ -67,25 +76,11 @@ class TicTacToe():
 
 
 
-        """
-        b2 = Button(self.window(), text="", height=4, width=8, bg="black", activebackground="white", fg="white",
-                    font="Times 15 bold", command=lambda: self.change_value(b2, 0, 1))
-        b3 = Button(self.window(), text="", height=4, width=8, bg="black", activebackground="white", fg="white",
-                    font="Times 15 bold", command=lambda: self.change_value(b3, 0, 2))
-        b4 = Button(self.window(), text="", height=4, width=8, bg="black", activebackground="white", fg="white",
-                    font="Times 15 bold", command=lambda: self.change_value(b4, 1, 0))
-        b5 = Button(self.window(), text="", height=4, width=8, bg="black", activebackground="white", fg="white",
-                    font="Times 15 bold", command=lambda: self.change_value(b5, 1, 1))
-        b6 = Button(self.window(), text="", height=4, width=8, bg="black", activebackground="white", fg="white",
-                    font="Times 15 bold", command=lambda: self.change_value(b6, 1, 2))
-        b7 = Button(self.window(), text="", height=4, width=8, bg="black", activebackground="white", fg="white",
-                    font="Times 15 bold", command=lambda: self.change_value(b7, 2, 0))
-        b8 = Button(self.window(), text="", height=4, width=8, bg="black", activebackground="white", fg="white",
-                    font="Times 15 bold", command=lambda: self.change_value(b8, 2, 1))
-        b9 = Button(self.window(), text="", height=4, width=8, bg="black", activebackground="white", fg="white",
-                    font="Times 15 bold", command=lambda: self.change_value(b9, 2, 2))
-        """
 
+
+#====================================================================
+#                          Main Program
+#====================================================================
 if __name__ == '__main__':
     board = TicTacToe()
     board.mainloop()
