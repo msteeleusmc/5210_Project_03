@@ -1,4 +1,5 @@
 from tkinter import *
+import time # sleep
 
 #====================================================================
 #               GUI CLASS FOR TIC TAC TOE BOARD
@@ -39,9 +40,14 @@ class TicTacToe():
             # If count greater than 5, a winner may exist
             if self.count >= 5:
                 # check for winning line
-                self.checkForWinner()
+                if(self.checkForWinner()):
+                    # Destroy the game
+                    self.window.destroy()
 
+    # Function will run through all scenerios of winning to determine if there is yet a winner
+    # or if it ends in a tie!
     def checkForWinner(self):
+        # This checks if X's win
         if (self.board_layout[0][0]==self.board_layout[0][1]==self.board_layout[0][2]=='X' or
             self.board_layout[1][0]==self.board_layout[1][1]==self.board_layout[1][2]=='X' or
             self.board_layout[2][0]==self.board_layout[2][1]==self.board_layout[2][2]=='X' or
@@ -50,9 +56,11 @@ class TicTacToe():
             self.board_layout[0][2]==self.board_layout[1][2]==self.board_layout[2][2]=='X' or
             self.board_layout[0][0]==self.board_layout[1][1]==self.board_layout[2][2]=='X' or
             self.board_layout[0][2]==self.board_layout[1][1]==self.board_layout[2][0]=='X'):
-
+            # Print Winner
             print("X Wins!!!")
+            return True
 
+        # This checks if the O's win
         elif(self.board_layout[0][0]==self.board_layout[0][1]==self.board_layout[0][2]=='O' or
             self.board_layout[1][0]==self.board_layout[1][1]==self.board_layout[1][2]=='O' or
             self.board_layout[2][0]==self.board_layout[2][1]==self.board_layout[2][2]=='O' or
@@ -61,13 +69,16 @@ class TicTacToe():
             self.board_layout[0][2]==self.board_layout[1][2]==self.board_layout[2][2]=='O' or
             self.board_layout[0][0]==self.board_layout[1][1]==self.board_layout[2][2]=='O' or
             self.board_layout[0][2]==self.board_layout[1][1]==self.board_layout[2][0]=='O'):
-
+            # Print the winner
             print("O Wins!!")
+            return True
 
+        # This will run if all tiles are selected and there is no winner
         elif(self.count == 9):
-
             print("It's A Tie!!!!")
+            return True
 
+        return False
 
     # Build board function
     def build_board(self):
