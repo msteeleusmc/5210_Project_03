@@ -42,7 +42,31 @@ class TicTacToe():
                 self.checkForWinner()
 
     def checkForWinner(self):
-        pass
+        if (self.board_layout[0][0]==self.board_layout[0][1]==self.board_layout[0][2]=='X' or
+            self.board_layout[1][0]==self.board_layout[1][1]==self.board_layout[1][2]=='X' or
+            self.board_layout[2][0]==self.board_layout[2][1]==self.board_layout[2][2]=='X' or
+            self.board_layout[0][0]==self.board_layout[1][0]==self.board_layout[2][0]=='X' or
+            self.board_layout[0][1]==self.board_layout[1][1]==self.board_layout[2][1]=='X' or
+            self.board_layout[0][2]==self.board_layout[1][2]==self.board_layout[2][2]=='X' or
+            self.board_layout[0][0]==self.board_layout[1][1]==self.board_layout[2][2]=='X' or
+            self.board_layout[0][2]==self.board_layout[1][1]==self.board_layout[2][0]=='X'):
+
+            print("X Wins!!!")
+
+        elif(self.board_layout[0][0]==self.board_layout[0][1]==self.board_layout[0][2]=='O' or
+            self.board_layout[1][0]==self.board_layout[1][1]==self.board_layout[1][2]=='O' or
+            self.board_layout[2][0]==self.board_layout[2][1]==self.board_layout[2][2]=='O' or
+            self.board_layout[0][0]==self.board_layout[1][0]==self.board_layout[2][0]=='O' or
+            self.board_layout[0][1]==self.board_layout[1][1]==self.board_layout[2][1]=='O' or
+            self.board_layout[0][2]==self.board_layout[1][2]==self.board_layout[2][2]=='O' or
+            self.board_layout[0][0]==self.board_layout[1][1]==self.board_layout[2][2]=='O' or
+            self.board_layout[0][2]==self.board_layout[1][1]==self.board_layout[2][0]=='O'):
+
+            print("O Wins!!")
+
+        elif(self.count == 9):
+
+            print("It's A Tie!!!!")
 
 
     # Build board function
