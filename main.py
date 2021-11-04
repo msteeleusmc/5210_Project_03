@@ -1,5 +1,5 @@
+import tkinter
 from tkinter import *
-import time # sleep
 
 #====================================================================
 #               GUI CLASS FOR TIC TAC TOE BOARD
@@ -40,11 +40,9 @@ class TicTacToe():
             # If count greater than 5, a winner may exist
             if self.count >= 5:
                 # check for winning line
-                if(self.checkForWinner()):
-                    # Destroy the game
-                    self.window.destroy()
+                self.checkForWinner()
 
-    # Function will run through all scenerios of winning to determine if there is yet a winner
+    # Function will run through all scenarios of winning to determine if there is yet a winner
     # or if it ends in a tie!
     def checkForWinner(self):
         # This checks if X's win
@@ -57,7 +55,7 @@ class TicTacToe():
             self.board_layout[0][0]==self.board_layout[1][1]==self.board_layout[2][2]=='X' or
             self.board_layout[0][2]==self.board_layout[1][1]==self.board_layout[2][0]=='X'):
             # Print Winner
-            print("X Wins!!!")
+            self.show_winner("Player X")
             return True
 
         # This checks if the O's win
@@ -70,15 +68,51 @@ class TicTacToe():
             self.board_layout[0][0]==self.board_layout[1][1]==self.board_layout[2][2]=='O' or
             self.board_layout[0][2]==self.board_layout[1][1]==self.board_layout[2][0]=='O'):
             # Print the winner
-            print("O Wins!!")
+            self.show_winner("Player O")
             return True
 
         # This will run if all tiles are selected and there is no winner
         elif(self.count == 9):
-            print("It's A Tie!!!!")
+            self.show_winner("It's a Tie!!")
             return True
 
         return False
+
+    # Display who the winner is
+    def show_winner(self, winner):
+        self.win = Tk()
+        self.win.title("You Won!!!")
+        self.win.configure(bg="Black")
+        self.win.geometry("300x300")
+
+        # Make the pop up the focus and disable the board
+        self.win.focus_set()
+        self.window.attributes('-disabled', True)
+
+        # Print the result to the new window
+        if winner == "It's a Tie!!":
+            # Build the label
+            label_01 = Label(self.win, text=winner, font="Helvetica 16 bold", bg="Black", fg="White")
+            # Pack the label
+            label_01.pack(side=tkinter.TOP, pady=50)
+        else:
+            # Build the label
+            label_01 = Label(self.win, text=winner, font="Helvetica 16 bold", bg="Black", fg="White")
+            # Pack the label
+            label_01.pack(pady=25)
+            label_02 = Label(self.win, text="Has Won!!", font="Helvetica 16 bold", bg="Black", fg="White")
+            label_02.pack(pady=25)
+
+        # Button causes all open windows to be destroyed
+        end_button = Button(self.win, text="End", font="Helvetica 12 bold", command=self.destroyWindow)
+        end_button.pack(side=tkinter.BOTTOM, pady=50)
+
+    # Window destroy function
+    def destroyWindow(self):
+        # Destroy the board
+        self.window.destroy()
+        # Destroy the message box
+        self.win.destroy()
 
     # Build board function
     def build_board(self):
