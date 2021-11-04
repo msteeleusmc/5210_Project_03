@@ -13,7 +13,7 @@ class TicTacToe():
         self.canvas = Canvas(self.window, width=700, height=700)
         # Requires a global count of spaces
         self.count = 0
-        # Player will alternate between X and O
+        # Player will alternate between X and O, X is first because it is the computer
         self.player = 'X'
         # Game board needs to be initialized
         self.build_board()
@@ -23,108 +23,6 @@ class TicTacToe():
     # Mainloop function
     def mainloop(self):
         self.window.mainloop()
-
-    # Function applies Xs and Os when button pressed
-    def select_tile(self, button, row, col):
-        # This is to handle if the current player is
-        # the computer
-        if self.player == 'X':
-            # Run a check to see if the button is available
-            if button["text"] == "":
-                button["text"] = "X"
-                # Update the board list
-                self.board_layout[row][col] = 'X'
-            # converts to O
-            self.player = 'O'
-        # Here, if the player is human, after click convert to X
-        # so that the computer can make a move
-        elif self.player == 'O':
-            # Run a check to see if the button is available
-            if button["text"]== "":
-                button["text"]="O"
-                # Update the board list
-                self.board_layout[row][col] = 'O'
-            # converts to X
-            self.player = 'X'
-
-        # Increase count by 1
-        self.count += 1
-        # If count greater than 5, a winner may exist
-        if self.count >= 5:
-            # check for winning line
-            self.checkForWinner()
-
-    # Function will run through all scenarios of winning to determine if there is yet a winner
-    # or if it ends in a tie!
-    def checkForWinner(self):
-        # This checks if X's win
-        if (self.board_layout[0][0]==self.board_layout[0][1]==self.board_layout[0][2]=='X' or
-            self.board_layout[1][0]==self.board_layout[1][1]==self.board_layout[1][2]=='X' or
-            self.board_layout[2][0]==self.board_layout[2][1]==self.board_layout[2][2]=='X' or
-            self.board_layout[0][0]==self.board_layout[1][0]==self.board_layout[2][0]=='X' or
-            self.board_layout[0][1]==self.board_layout[1][1]==self.board_layout[2][1]=='X' or
-            self.board_layout[0][2]==self.board_layout[1][2]==self.board_layout[2][2]=='X' or
-            self.board_layout[0][0]==self.board_layout[1][1]==self.board_layout[2][2]=='X' or
-            self.board_layout[0][2]==self.board_layout[1][1]==self.board_layout[2][0]=='X'):
-            # Print Winner
-            self.show_winner("Player X")
-            return True
-
-        # This checks if the O's win
-        elif(self.board_layout[0][0]==self.board_layout[0][1]==self.board_layout[0][2]=='O' or
-            self.board_layout[1][0]==self.board_layout[1][1]==self.board_layout[1][2]=='O' or
-            self.board_layout[2][0]==self.board_layout[2][1]==self.board_layout[2][2]=='O' or
-            self.board_layout[0][0]==self.board_layout[1][0]==self.board_layout[2][0]=='O' or
-            self.board_layout[0][1]==self.board_layout[1][1]==self.board_layout[2][1]=='O' or
-            self.board_layout[0][2]==self.board_layout[1][2]==self.board_layout[2][2]=='O' or
-            self.board_layout[0][0]==self.board_layout[1][1]==self.board_layout[2][2]=='O' or
-            self.board_layout[0][2]==self.board_layout[1][1]==self.board_layout[2][0]=='O'):
-            # Print the winner
-            self.show_winner("Player O")
-            return True
-
-        # This will run if all tiles are selected and there is no winner
-        elif(self.count == 9):
-            self.show_winner("It's a Tie!!")
-            return True
-
-        return False
-
-    # Display who the winner is
-    def show_winner(self, winner):
-        self.win = Tk()
-        self.win.title("You Won!!!")
-        self.win.configure(bg="Black")
-        self.win.geometry("300x300")
-
-        # Make the pop up the focus and disable the board
-        self.win.focus_set()
-        self.window.attributes('-disabled', True)
-
-        # Print the result to the new window
-        if winner == "It's a Tie!!":
-            # Build the label
-            label_01 = Label(self.win, text=winner, font="Helvetica 16 bold", bg="Black", fg="White")
-            # Pack the label
-            label_01.pack(side=tkinter.TOP, pady=50)
-        else:
-            # Build the label
-            label_01 = Label(self.win, text=winner, font="Helvetica 16 bold", bg="Black", fg="White")
-            # Pack the label
-            label_01.pack(pady=25)
-            label_02 = Label(self.win, text="Has Won!!", font="Helvetica 16 bold", bg="Black", fg="White")
-            label_02.pack(pady=25)
-
-        # Button causes all open windows to be destroyed
-        end_button = Button(self.win, text="End", font="Helvetica 12 bold", command=self.destroyWindow)
-        end_button.pack(side=tkinter.BOTTOM, pady=50)
-
-    # Window destroy function
-    def destroyWindow(self):
-        # Destroy the board
-        self.window.destroy()
-        # Destroy the message box
-        self.win.destroy()
 
     # Build board function
     def build_board(self):
@@ -167,6 +65,107 @@ class TicTacToe():
         b7.grid(row=3, column=0)
         b8.grid(row=3, column=1)
         b9.grid(row=3, column=2)
+
+    # Function applies Xs and Os when button pressed
+    def select_tile(self, button, row, col):
+        # This is to handle if the current player is the computer
+        if self.player == 'X':
+            # Run a check to see if the button is available
+            if button["text"] == "":
+                button["text"] = "X"
+                # Update the board list
+                self.board_layout[row][col] = 'X'
+            # converts to O
+            self.player = 'O'
+
+        # Here, if the player is human, after click convert to X so that the computer can make a move
+        elif self.player == 'O':
+            # Run a check to see if the button is available
+            if button["text"] == "":
+                button["text"] = "O"
+                # Update the board list
+                self.board_layout[row][col] = 'O'
+            # converts to X
+            self.player = 'X'
+
+        # Increase count by 1
+        self.count += 1
+        # If count greater than 5, a winner may exist
+        if self.count >= 5:
+            # check for winning line
+            self.checkForWinner()
+
+    # Function will run through all scenarios of winning to determine if there is yet a winner
+    # or if it ends in a tie!
+    def checkForWinner(self):
+        # This checks if X's win
+        if (self.board_layout[0][0] == self.board_layout[0][1] == self.board_layout[0][2] == 'X' or
+                self.board_layout[1][0] == self.board_layout[1][1] == self.board_layout[1][2] == 'X' or
+                self.board_layout[2][0] == self.board_layout[2][1] == self.board_layout[2][2] == 'X' or
+                self.board_layout[0][0] == self.board_layout[1][0] == self.board_layout[2][0] == 'X' or
+                self.board_layout[0][1] == self.board_layout[1][1] == self.board_layout[2][1] == 'X' or
+                self.board_layout[0][2] == self.board_layout[1][2] == self.board_layout[2][2] == 'X' or
+                self.board_layout[0][0] == self.board_layout[1][1] == self.board_layout[2][2] == 'X' or
+                self.board_layout[0][2] == self.board_layout[1][1] == self.board_layout[2][0] == 'X'):
+            # Print Winner
+            self.show_winner("Player X")
+            return True
+
+        # This checks if the O's win
+        elif (self.board_layout[0][0] == self.board_layout[0][1] == self.board_layout[0][2] == 'O' or
+              self.board_layout[1][0] == self.board_layout[1][1] == self.board_layout[1][2] == 'O' or
+              self.board_layout[2][0] == self.board_layout[2][1] == self.board_layout[2][2] == 'O' or
+              self.board_layout[0][0] == self.board_layout[1][0] == self.board_layout[2][0] == 'O' or
+              self.board_layout[0][1] == self.board_layout[1][1] == self.board_layout[2][1] == 'O' or
+              self.board_layout[0][2] == self.board_layout[1][2] == self.board_layout[2][2] == 'O' or
+              self.board_layout[0][0] == self.board_layout[1][1] == self.board_layout[2][2] == 'O' or
+              self.board_layout[0][2] == self.board_layout[1][1] == self.board_layout[2][0] == 'O'):
+            # Print the winner
+            self.show_winner("Player O")
+            return True
+
+        # This will run if all tiles are selected and there is no winner
+        elif (self.count == 9):
+            self.show_winner("It's a Tie!!")
+            return True
+
+        return False
+
+    # Display who the winner is
+    def show_winner(self, winner):
+        self.win = Tk()
+        self.win.title("You Won!!!")
+        self.win.configure(bg="Black")
+        self.win.geometry("300x300")
+
+        # Make the pop up the focus and disable the board
+        self.win.focus_set()
+        self.window.attributes('-disabled', True)
+
+        # Print the result to the new window
+        if winner == "It's a Tie!!":
+            # Build the label
+            label_01 = Label(self.win, text=winner, font="Helvetica 16 bold", bg="Black", fg="White")
+            # Pack the label
+            label_01.pack(side=tkinter.TOP, pady=50)
+        else:
+            # Build the label
+            label_01 = Label(self.win, text=winner, font="Helvetica 16 bold", bg="Black", fg="White")
+            # Pack the label
+            label_01.pack(pady=25)
+            label_02 = Label(self.win, text="Has Won!!", font="Helvetica 16 bold", bg="Black", fg="White")
+            label_02.pack(pady=25)
+
+        # Button causes all open windows to be destroyed
+        end_button = Button(self.win, text="End", font="Helvetica 12 bold", command=self.destroyWindow)
+        end_button.pack(side=tkinter.BOTTOM, pady=50)
+
+    # Window destroy function
+    def destroyWindow(self):
+        # Destroy the board
+        self.window.destroy()
+        # Destroy the message box
+        self.win.destroy()
 
     # Create the minimax algorithm for alpha-beta prunning
     def minimax(self):
