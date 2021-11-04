@@ -13,6 +13,8 @@ class TicTacToe():
         self.canvas = Canvas(self.window, width=700, height=700)
         # Requires a global count of spaces
         self.count = 0
+        # Player will alternate between X and O
+        self.player = 'X'
         # Game board needs to be initialized
         self.build_board()
         # Will need a list to know the current layout of the board to verify a winner
@@ -24,23 +26,33 @@ class TicTacToe():
 
     # Function applies Xs and Os when button pressed
     def select_tile(self, button, row, col):
-        # Run a check to see if the button is available
-        if button["text"]== "":
-            if self.count % 2 == 0:
-                button["text"]="X"
+        # This is to handle if the current player is
+        # the computer
+        if self.player == 'X':
+            # Run a check to see if the button is available
+            if button["text"] == "":
+                button["text"] = "X"
                 # Update the board list
                 self.board_layout[row][col] = 'X'
-            else:
+            # converts to O
+            self.player = 'O'
+        # Here, if the player is human, after click convert to X
+        # so that the computer can make a move
+        elif self.player == 'O':
+            # Run a check to see if the button is available
+            if button["text"]== "":
                 button["text"]="O"
                 # Update the board list
                 self.board_layout[row][col] = 'O'
+            # converts to X
+            self.player = 'X'
 
-            # Increase count by 1
-            self.count += 1
-            # If count greater than 5, a winner may exist
-            if self.count >= 5:
-                # check for winning line
-                self.checkForWinner()
+        # Increase count by 1
+        self.count += 1
+        # If count greater than 5, a winner may exist
+        if self.count >= 5:
+            # check for winning line
+            self.checkForWinner()
 
     # Function will run through all scenarios of winning to determine if there is yet a winner
     # or if it ends in a tie!
@@ -127,23 +139,23 @@ class TicTacToe():
 
         # Grid buttons for the board
         b1 = Button(self.window, text="", height=8, width=16, bg="gray", activebackground="white", fg="white",
-                        font="Helvetica 16 bold", command=lambda: self.select_tile(b1, 0, 0))
+                    font="Helvetica 16 bold", command=lambda: self.select_tile(b1, 0, 0))
         b2 = Button(self.window, text="", height=8, width=16, bg="gray", activebackground="white", fg="white",
-                        font="Helvetica 16 bold", command=lambda: self.select_tile(b2, 0, 1))
+                    font="Helvetica 16 bold", command=lambda: self.select_tile(b2, 0, 1))
         b3 = Button(self.window, text="", height=8, width=16, bg="gray", activebackground="white", fg="white",
-                        font="Helvetica 16 bold", command=lambda: self.select_tile(b3, 0, 2))
+                    font="Helvetica 16 bold", command=lambda: self.select_tile(b3, 0, 2))
         b4 = Button(self.window, text="", height=8, width=16, bg="gray", activebackground="white", fg="white",
-                        font="Helvetica 16 bold", command=lambda: self.select_tile(b4, 1, 0))
+                    font="Helvetica 16 bold", command=lambda: self.select_tile(b4, 1, 0))
         b5 = Button(self.window, text="", height=8, width=16, bg="gray", activebackground="white", fg="white",
-                        font="Helvetica 16 bold", command=lambda: self.select_tile(b5, 1, 1))
+                    font="Helvetica 16 bold", command=lambda: self.select_tile(b5, 1, 1))
         b6 = Button(self.window, text="", height=8, width=16, bg="gray", activebackground="white", fg="white",
-                        font="Helvetica 16 bold", command=lambda: self.select_tile(b6, 1, 2))
+                    font="Helvetica 16 bold", command=lambda: self.select_tile(b6, 1, 2))
         b7 = Button(self.window, text="", height=8, width=16, bg="gray", activebackground="white", fg="white",
-                        font="Helvetica 16 bold", command=lambda: self.select_tile(b7, 2, 0))
+                    font="Helvetica 16 bold", command=lambda: self.select_tile(b7, 2, 0))
         b8 = Button(self.window, text="", height=8, width=16, bg="gray", activebackground="white", fg="white",
-                        font="Helvetica 16 bold", command=lambda: self.select_tile(b8, 2, 1))
+                    font="Helvetica 16 bold", command=lambda: self.select_tile(b8, 2, 1))
         b9 = Button(self.window, text="", height=8, width=16, bg="gray", activebackground="white", fg="white",
-                        font="Helvetica 16 bold", command=lambda: self.select_tile(b9, 2, 2))
+                    font="Helvetica 16 bold", command=lambda: self.select_tile(b9, 2, 2))
 
         # Establish the actual buttons row and col locations
         b1.grid(row=1, column=0)
@@ -155,6 +167,10 @@ class TicTacToe():
         b7.grid(row=3, column=0)
         b8.grid(row=3, column=1)
         b9.grid(row=3, column=2)
+
+    # Create the minimax algorithm for alpha-beta prunning
+    def minimax(self):
+        pass
 
 #====================================================================
 #                          Main Program
