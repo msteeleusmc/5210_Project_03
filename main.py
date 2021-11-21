@@ -1,11 +1,16 @@
 import tkinter as tk
 import random
 from tkinter import messagebox
+import math
+from tkinter import *
 
 
 #====================================================================
 #                           Global Functions
 #====================================================================
+alphaValue = -math.inf
+betaValue = math.inf
+
 # Function starts the program
 def startProgram():
     # Assign the root
@@ -36,18 +41,24 @@ def gameDraw(current: list):
 
 # minimax algorithm to find best AI move
 def minimaxAlgorithm(curr, is_ai, value):
+    global alphaValue
+    global betaValue
     # Returns score
     if isWon(curr): return curr, 1 + finalScore(curr) if not is_ai else -finalScore(curr) - 1
     # Returns a score of 0
     if gameDraw(curr): return curr, 0
     # Function generates possible moves
     poss_moves = generatePossibleMoves(curr, value)
-    miniMaxScore = -10 if is_ai else 10
+    miniMaxScore = -1000 if is_ai else 1000
     next_move = None
     for move in poss_moves:
         temp_next_move, score = minimaxAlgorithm(move, not is_ai, not value)
         if (score > miniMaxScore and is_ai) or (score < miniMaxScore and not is_ai):
             next_move, miniMaxScore = move, score
+
+    if(is_ai): alphaValue = miniMaxScore
+    else: betaValue = miniMaxScore
+
     return next_move, miniMaxScore
 
 # Checks if algo is winner then returns to miniMax
@@ -84,8 +95,8 @@ class TicTacToe(tk.Frame):
         parent.minsize(700, 700)
         parent.title("Project 03")
 
-        self.new_game = tk.Button(self, text="New Game", bg="gray", fg="white", command=self.clearBoard)
-        self.new_game.pack(side=tk.BOTTOM, anchor=tk.N, pady=50)
+        self.new_game = tk.Button(self, width=10, height=3, text="New Game", bg="gray", fg="black", command=self.clearBoard)
+        self.new_game.pack(side=tk.BOTTOM, anchor=tk.CENTER, pady=60)
         # Call child class to build game board
         self.board_layout = BuildBoard(self)
 
@@ -100,6 +111,10 @@ class TicTacToe(tk.Frame):
 class BuildBoard(tk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
+
+        global alphaValue
+        global betaValue
+
         # Will need a list to know the current layout of the board to verify a winner
         self.board_layout = [[], [], []]
         # Function called to build the board
@@ -108,7 +123,12 @@ class BuildBoard(tk.Frame):
         # Score tracker at the top of the window
         self.score = tk.Label(parent, text="")
         self.score.pack()
+        self.betaScore = tk.Label(parent, text="")
+        self.betaScore.pack(side=tk.BOTTOM, anchor=tk.NW, pady=15, padx=45)
         self.pack(pady=15)
+        self.alphaScore = tk.Label(parent, text="")
+        self.alphaScore.pack(side=tk.BOTTOM, anchor=tk.NW, padx=45)
+
         # Establishes AI's first move
         self.setAiPosition()
 
@@ -180,8 +200,10 @@ class BuildBoard(tk.Frame):
         # After first move, start == None
         else:
             # Function returns
-            player_move, score = minimaxAlgorithm(self.ai_value, True, self.turn)
+            player_move, score= minimaxAlgorithm(self.ai_value, True, self.turn)
         self.score.config(text="minimax score {}".format(score))
+        self.alphaScore.config(text="Alpha Score {}".format(alphaValue))
+        self.betaScore.config(text="Beta Score {}".format(betaValue))
         index = 0
         for i in range(9):
             if self.ai_value[i] != player_move[i]:
@@ -215,6 +237,9 @@ class BuildBoard(tk.Frame):
                 else:
                     self.board_layout[i][j].config(text="", bg="gray", fg="black", state=tk.NORMAL)
         if not disable: self.setAiPosition()
+
+        self.alphaScore.config(text="Alpha Score {}".format(-math.inf))
+        self.betaScore.config(text="Beta Score {}".format(math.inf))
 
 #====================================================================
 #                           Main Program
